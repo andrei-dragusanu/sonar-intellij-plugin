@@ -22,6 +22,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiFile;
 import org.intellij.sonar.configuration.WorkingDirs;
@@ -262,7 +263,8 @@ public class RunLocalAnalysisScriptTask implements Runnable {
       for (Component component : sonarReport.getComponents()) {
         final String path = component.getPath();
         if (path != null) {
-          final String componentFullPath = new File(workingDir,path).toString();
+            final String componentFullPath = FileUtil
+                .toSystemIndependentName(new File(workingDir, path).toString());
           indexComponent.get().getIndex().remove(componentFullPath);
         }
       }
